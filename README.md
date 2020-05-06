@@ -1,16 +1,18 @@
-# signalfxUploader
+# SignalfxUploader
+
 Taurus plugin to stream results to SignalFX API
 
-# Installation:
+## Installation
 
-```
+```bash
 git clone https://github.com/doctornkz/signalfxUploader.git
 cd signalfxUploader/
 pip install .
 ```
 
-# Example of configuration file:
-```
+## Example of configuration file
+
+```ini
 execution:
 - executor: pbench
   concurrency: 100
@@ -46,8 +48,9 @@ modules:
     token: <SIGNALFX_TOKEN>
 ```
 
-# Starting:
-```
+## Starting
+
+```bash
 $ bzt load.yaml
 19:11:53 INFO: Taurus CLI Tool v1.13.9
 19:11:53 INFO: Starting with configs: ['load.yaml']
@@ -98,7 +101,6 @@ $ bzt load.yaml
 19:12:01 INFO: Done performing with code: 0
 ```
 
-# Dashboard example:
+## Dashboard example
 
-![](promo/dashboard_example.png)
-
+![Dashboard](/promo/dashboard_example.png)
