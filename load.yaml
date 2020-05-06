@@ -1,4 +1,33 @@
----
-reporting:
-  - signalfx
+execution:
+- executor: pbench
+  concurrency: 100
+  ramp-up: 1m
+  hold-for: 10m
+  iterations: 5
+  throughput: 10
+  scenario: simple_usage
 
+scenarios:
+  simple_usage:  
+    default-address: https://example.com:443/
+    requests:
+    - /
+
+reporting:
+  - module: signalfx
+
+modules:
+  console:
+    disable: true
+  signalfx:
+    address: https://<REALM>.signalfx.com  # reporting service address
+    data-address: https://ingest.eu0.signalfx.com/v2/datapoint   # data service address
+    dashboard-url: https://<REALM>.signalfx.com/#/dashboard/<DASHBOARD_ID> # your dashboard for rendering results 
+    project: test_project 
+    browser-open: start  # auto-open the report in browser, 
+                         # can be "start", "end", "both", "none"
+    send-interval: 5s   # send data each n-th second
+    timeout: 5s  # connect and request timeout for BlazeMeter API
+    custom_tags:
+      sf_hires: '1' # option to use high resolution SFX metrics
+    token: <SIGNALFX_TOKEN>
