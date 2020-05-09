@@ -205,7 +205,13 @@ class SignalfxUploader(Reporter, AggregatorListener, Singletone):
             raise TaurusConfigError("No SignalFX API key provided, only local results are available")
 
         # direct data feeding case
-        self.sess_id = str(uuid.uuid4())
+        
+        # Generates uuid withon "-" to avoid conflict in dimensions.
+        # Read details here: 
+        # https://community.signalfx.com/s/article/Timestamp-and-UUID-data-not-allowable-in-Dimension-values
+        
+        self.sess_id = str(uuid.uuid4()).replace("-", "") 
+          
         self.additional_tags.update({'project': self.project, 'uuid': self.sess_id})
         self.additional_tags.update(self.custom_tags)
 
