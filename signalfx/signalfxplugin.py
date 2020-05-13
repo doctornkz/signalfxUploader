@@ -5,6 +5,7 @@ Based on bza.py (Blazemeter API client) module, and adopted as-is for SignalFX A
 import copy
 import json
 import logging
+import os
 import sys
 import time
 import traceback
@@ -59,6 +60,7 @@ class Session(object):
         self.timeout = 30
         self.logger_limit = 256
         self.token = None
+        self.token_file = None
         self.log = logging.getLogger(self.__class__.__name__)
         self.http_session = requests.Session()
         self.http_request = self.http_session.request
@@ -190,6 +192,36 @@ class SignalfxUploader(Reporter, AggregatorListener, Singletone):
         self.last_ts = 0
         self._dpoint_serializer = DatapointSerializerSFX(self)
 
+    def token_processor(self):
+        # Read from config file
+        token = self.settings.get("token", "")
+        if token:
+            self.log.info("Token found in config file")
+            return token
+        self.log.info("Token not found in config file")
+        # Read from environment
+        try:
+            token = os.environ['SIGNALFX_TOKEN']
+            self.log.info("Token found in SIGNALFX_TOKEN environment variable")
+            return token
+        except:
+            self.log.info("Token not found in SIGNALFX_TOKEN environment variable")
+            pass
+        # Read from file
+        try:
+            token_file = self.settings.get("token_file","")
+            if token_file:
+                with open(token_file, 'r') as handle:
+                        token = handle.read().strip()
+                        self.log.info("Token found in file %s:", token_file)
+                        return token
+            else:
+                self.log.info("Parameter token_file is empty or doesn't exist")
+        except:
+            self.log.info("Token can't be retrieved from file: %s, please check path or access", token_file)
+            
+        return None
+
     def prepare(self):
         """
         Read options for uploading, check that they're sane
@@ -200,9 +232,9 @@ class SignalfxUploader(Reporter, AggregatorListener, Singletone):
         self.project = self.settings.get("project", self.project)
         self.custom_tags = self.settings.get("custom_tags", self.custom_tags)
         self._dpoint_serializer.multi = self.settings.get("report-times-multiplier", self._dpoint_serializer.multi)
-        token = self.settings.get("token", "")
+        token = self.token_processor()
         if not token:
-            raise TaurusConfigError("No SignalFX API key provided, only local results are available")
+            raise TaurusConfigError("No SignalFX API key provided")
 
         # direct data feeding case
         

@@ -46,7 +46,17 @@ modules:
     custom_tags:
       sf_hires: '1' # option to use high resolution SFX metrics
     token: <SIGNALFX_TOKEN>
+    #token_file: token.txt # read token from local file.
 ```
+
+## Authentification
+
+You can use:
+
+- `SIGNALFX_TOKEN` environment variable to pass the token
+- `token` from configuration file (see example above)
+- String from file `token_file` (see example above)
+If it's failing, test will be intterupted.
 
 ## Starting
 
