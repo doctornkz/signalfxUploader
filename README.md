@@ -43,10 +43,10 @@ modules:
                          # can be "start", "end", "both", "none"
     send-interval: 5s   # send data each n-th second
     timeout: 5s  # connect and request timeout for BlazeMeter API
-    custom_tags:
+    custom-tags:
       sf_hires: '1' # option to use high resolution SFX metrics
     token: <SIGNALFX_TOKEN>
-    #token_file: token.txt # read token from local file.
+    #token-file: token.txt # read token from local file.
 ```
 
 ## Authentification
@@ -55,7 +55,7 @@ You can use:
 
 - `SIGNALFX_TOKEN` environment variable to pass the token
 - `token` from configuration file (see example above)
-- String from file `token_file` (see example above)
+- String from file `token-file` (see example above)
 If it's failing, test will be intterupted.
 
 ## Starting

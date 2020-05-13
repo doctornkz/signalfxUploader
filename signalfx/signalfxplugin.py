@@ -209,7 +209,7 @@ class SignalfxUploader(Reporter, AggregatorListener, Singletone):
             pass
         # Read from file
         try:
-            token_file = self.settings.get("token_file","")
+            token_file = self.settings.get("token-file","")
             if token_file:
                 with open(token_file, 'r') as handle:
                         token = handle.read().strip()
@@ -230,7 +230,7 @@ class SignalfxUploader(Reporter, AggregatorListener, Singletone):
         self.send_interval = dehumanize_time(self.settings.get("send-interval", self.send_interval))
         self.browser_open = self.settings.get("browser-open", self.browser_open)
         self.project = self.settings.get("project", self.project)
-        self.custom_tags = self.settings.get("custom_tags", self.custom_tags)
+        self.custom_tags = self.settings.get("custom-tags", self.custom_tags)
         self._dpoint_serializer.multi = self.settings.get("report-times-multiplier", self._dpoint_serializer.multi)
         token = self.token_processor()
         if not token:
