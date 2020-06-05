@@ -238,11 +238,11 @@ class SignalfxUploader(Reporter, AggregatorListener, Singletone):
 
         # direct data feeding case
         
-        # Generates uuid withon "-" to avoid conflict in dimensions.
+        # Generates pseudo uniq ID from uuid. Unfortunatelly SFX has strong validation here, based on regex [a-fA-F0-9]{32}
         # Read details here: 
         # https://community.signalfx.com/s/article/Timestamp-and-UUID-data-not-allowable-in-Dimension-values
         
-        self.sess_id = str(uuid.uuid4()).replace("-", "") 
+        self.sess_id = str(uuid.uuid4()).split("-")[-1]
           
         self.additional_tags.update({'project': self.project, 'uuid': self.sess_id})
         self.additional_tags.update(self.custom_tags)
