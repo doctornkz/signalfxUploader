@@ -244,7 +244,7 @@ class SignalfxUploader(Reporter, AggregatorListener, Singletone):
         
         self.sess_id = str(uuid.uuid4()).split("-")[-1]
           
-        self.additional_tags.update({'project': self.project, 'uuid': self.sess_id})
+        self.additional_tags.update({'project': self.project, 'id': self.sess_id})
         self.additional_tags.update(self.custom_tags)
 
         self._session = Session()
@@ -274,7 +274,7 @@ class SignalfxUploader(Reporter, AggregatorListener, Singletone):
                            '&sources%5B%5D=' + \
                            'project:' + \
                            self.project + \
-                           '&sources%5B%5D=uuid:' + \
+                           '&sources%5B%5D=id:' + \
                            self.sess_id + \
                            '&density=4'
 
